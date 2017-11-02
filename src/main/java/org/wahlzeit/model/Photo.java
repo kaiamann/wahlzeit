@@ -420,4 +420,21 @@ public class Photo extends DataObject {
 		noVotesAtLastNotification = noVotes;
 		incWriteCount();
 	}
+	
+
+	/**
+	 * @methodtype set
+	 */
+	public void setLocation(Location l) {
+		location = l;
+	}
+	
+
+	/**
+	 * @methodtype get
+	 */
+	public Location getLocation() {
+		return location;
+	}
+	
 }

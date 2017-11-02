@@ -1,26 +1,53 @@
 package org.wahlzeit.model;
 
 public class Location {
-public Coordinate coordinate = null;
+	public Coordinate coordinate;
 
-/**
- * Constructor without arguments
- */
-public Location() {	
-}
+	/**
+	 * Constructor without arguments
+	 * @methodtype constructor
+	 */
+	public Location() {	
+	}
 
-/**
- * Constructor with Coordinate
- */
-public Location(Coordinate c) {
-	coordinate = c;
-}
+	/**
+	 * Constructor with Coordinate
+	 * @methodtype constructor
+	 */
+	public Location(Coordinate c) {
+		coordinate = c;
+	}
 
-/**
- * Constructor with "raw" Coordinates
- */
-public Location(double x,double y,double z) {
-	coordinate = new Coordinate(x,y,z);
-}
+	/**
+	 * @methodtype set
+	 */
+	public void setCoordinate(Coordinate c) {
+		coordinate = c;
+	}
+
+	/**
+	 * @methodtype get
+	 */
+	public Coordinate getCoordinate() {
+		return coordinate;
+	}
+
+
+	@Override 
+	public boolean equals(Object obj){
+		if(obj == null) {
+			return false;
+		}
+		
+		if(obj == this) {
+			return true;
+		}
+		
+		if(obj instanceof Location) {
+			return coordinate.isEqual(((Location) obj).getCoordinate());
+		}
+		
+		return false;
+	}
 
 }
