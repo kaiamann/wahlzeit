@@ -1,7 +1,7 @@
 /*
- * Location
+ * HandlersTestSuite
  *
- * Version 1.1
+ * Version 1.0
  *
  * 04.11.2017
  *
@@ -24,56 +24,14 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package org.wahlzeit.model;
+package org.wahlzeit.handlers;
 
-public class Location {
-	public Coordinate coordinate;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
-	/**
-	 * Constructor without arguments
-	 * @methodtype constructor
-	 */
-	public Location() {	
-	}
-
-	/**
-	 * Constructor with Coordinate
-	 * @methodtype constructor
-	 */
-	public Location(Coordinate c) {
-		coordinate = c;
-	}
-
-	/**
-	 * @methodtype set
-	 */
-	public void setCoordinate(Coordinate c) {
-		coordinate = c;
-	}
-
-	/**
-	 * @methodtype get
-	 */
-	public Coordinate getCoordinate() {
-		return coordinate;
-	}
-
-
-	@Override 
-	public boolean equals(Object obj){
-		if(obj == null) {
-			return false;
-		}
-		
-		if(obj == this) {
-			return true;
-		}
-		
-		if(obj instanceof Location) {
-			return coordinate.isEqual(((Location) obj).getCoordinate());
-		}
-		
-		return false;
-	}
+@RunWith(Suite.class)
+@SuiteClasses({ TellFriendTest.class })
+public class HandlersTestSuite {
 
 }

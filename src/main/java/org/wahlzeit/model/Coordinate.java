@@ -1,3 +1,30 @@
+/*
+ * Coordinate
+ *
+ * Version 1.1
+ *
+ * 04.11.2017
+ *
+ * Copyright (c) by Kai Amann
+ *
+ * This file is part of the Wahlzeit photo rating application.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this program. If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
+
+
 package org.wahlzeit.model;
 
 public class Coordinate {
@@ -6,14 +33,14 @@ public class Coordinate {
 	 * EPSILON for compensating floating point errors
 	 */
 	private static final double EPSILON = 1E-6;
-	
+
 	/**
 	 * Values for the Cartesian Coordinate System
 	 */
 	private double x;
 	private double y;
 	private double z;
-	
+
 	/**
 	 * @methodtype constructor
 	 */
@@ -22,7 +49,7 @@ public class Coordinate {
 		this.y = y;
 		this.z = z;
 	}
-	
+
 	/**
 	 * Computes and returns the Euclidean distance between two points in the Cartesian Coordinate system
 	 * @param c the Coordinate to which the distance should be computed 
@@ -32,7 +59,7 @@ public class Coordinate {
 		if(c == null) {
 			throw new IllegalArgumentException("Coordinate cannot be null!");
 		}
-		
+
 		double xdif = this.x - c.x;
 		double ydif = this.y - c.y;
 		double zdif = this.z - c.z;
@@ -58,7 +85,7 @@ public class Coordinate {
 		if(xdif < EPSILON && ydif < EPSILON && zdif < EPSILON) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -83,7 +110,7 @@ public class Coordinate {
 		return z;
 	}
 
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if(obj == null) {
@@ -101,7 +128,7 @@ public class Coordinate {
 		return false;
 
 	}
-	
+
 	@Override
 	public String toString() {
 		return "x: "+x+", y: "+y+", z: "+z;

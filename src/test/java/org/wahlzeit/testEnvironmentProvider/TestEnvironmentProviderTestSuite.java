@@ -1,7 +1,7 @@
 /*
- * Location
+ * TestEnvironmentProviderTestSuite
  *
- * Version 1.1
+ * Version 1.0
  *
  * 04.11.2017
  *
@@ -23,57 +23,16 @@
  * License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+package org.wahlzeit.testEnvironmentProvider;
 
-package org.wahlzeit.model;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
-public class Location {
-	public Coordinate coordinate;
-
-	/**
-	 * Constructor without arguments
-	 * @methodtype constructor
-	 */
-	public Location() {	
-	}
-
-	/**
-	 * Constructor with Coordinate
-	 * @methodtype constructor
-	 */
-	public Location(Coordinate c) {
-		coordinate = c;
-	}
-
-	/**
-	 * @methodtype set
-	 */
-	public void setCoordinate(Coordinate c) {
-		coordinate = c;
-	}
-
-	/**
-	 * @methodtype get
-	 */
-	public Coordinate getCoordinate() {
-		return coordinate;
-	}
-
-
-	@Override 
-	public boolean equals(Object obj){
-		if(obj == null) {
-			return false;
-		}
-		
-		if(obj == this) {
-			return true;
-		}
-		
-		if(obj instanceof Location) {
-			return coordinate.isEqual(((Location) obj).getCoordinate());
-		}
-		
-		return false;
-	}
+@RunWith(Suite.class)
+@SuiteClasses({org.wahlzeit.testEnvironmentProvider.LocalDatastoreServiceTestConfigProvider.class, org.wahlzeit.testEnvironmentProvider.RegisteredOfyEnvironmentProvider.class,
+		org.wahlzeit.testEnvironmentProvider.SysConfigProvider.class, org.wahlzeit.testEnvironmentProvider.UserServiceProvider.class, 
+		org.wahlzeit.testEnvironmentProvider.UserSessionProvider.class, org.wahlzeit.testEnvironmentProvider.WebFormHandlerProvider.class})
+public class TestEnvironmentProviderTestSuite {
 
 }
