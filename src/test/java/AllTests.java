@@ -5,7 +5,7 @@
  *
  * 04.11.2017
  *
- * Copyright (c) by Kai Amann
+ * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
  *
  * This file is part of the Wahlzeit photo rating application.
  *
@@ -28,10 +28,24 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import org.wahlzeit.handlers.HandlersTestSuite;
+import org.wahlzeit.model.ModelTestSuite;
+import org.wahlzeit.model.persistence.ModelPersistenceTestSuite;
+import org.wahlzeit.services.ServicesTestSuite;
+import org.wahlzeit.services.mailing.ServicesMailingTestSuite;
+import org.wahlzeit.testEnvironmentProvider.TestEnvironmentProviderTestSuite;
+import org.wahlzeit.utils.UtilsTestSuite;
+
 @RunWith(Suite.class)
-@SuiteClasses({org.wahlzeit.handlers.HandlersTestSuite.class, org.wahlzeit.model.ModelTestSuite.class, 
-	org.wahlzeit.model.persistence.ModelPersistenceTestSuite.class, org.wahlzeit.services.ServicesTestSuite.class,
-	org.wahlzeit.services.mailing.ServicesMailingTestSuite.class,org.wahlzeit.testEnvironmentProvider.TestEnvironmentProviderTestSuite.class, org.wahlzeit.utils.UtilsTestSuite.class})
+@SuiteClasses({HandlersTestSuite.class, 
+	ModelTestSuite.class, 
+	ModelPersistenceTestSuite.class, 
+	ServicesTestSuite.class,
+	ServicesMailingTestSuite.class,
+	TestEnvironmentProviderTestSuite.class, 
+	UtilsTestSuite.class
+})
+
 public class AllTests {
 
 }

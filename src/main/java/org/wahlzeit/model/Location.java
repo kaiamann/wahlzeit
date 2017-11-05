@@ -5,7 +5,7 @@
  *
  * 04.11.2017
  *
- * Copyright (c) by Kai Amann
+ * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
  *
  * This file is part of the Wahlzeit photo rating application.
  *
@@ -64,15 +64,15 @@ public class Location {
 		if(obj == null) {
 			return false;
 		}
-		
+
 		if(obj == this) {
 			return true;
 		}
-		
+
 		if(obj instanceof Location) {
 			return coordinate.isEqual(((Location) obj).getCoordinate());
 		}
-		
+
 		return false;
 	}
 

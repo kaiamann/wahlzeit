@@ -5,7 +5,7 @@
  *
  * 04.11.2017
  *
- * Copyright (c) by Kai Amann
+ * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
  *
  * This file is part of the Wahlzeit photo rating application.
  *
@@ -31,7 +31,10 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ StringUtilTest.class, VersionTest.class })
+@SuiteClasses({ 
+	StringUtilTest.class, 
+	VersionTest.class 
+})
 public class UtilsTestSuite {
 
 }

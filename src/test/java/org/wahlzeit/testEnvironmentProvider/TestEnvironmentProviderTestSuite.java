@@ -5,7 +5,7 @@
  *
  * 04.11.2017
  *
- * Copyright (c) by Kai Amann
+ * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
  *
  * This file is part of the Wahlzeit photo rating application.
  *
@@ -30,9 +30,15 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({org.wahlzeit.testEnvironmentProvider.LocalDatastoreServiceTestConfigProvider.class, org.wahlzeit.testEnvironmentProvider.RegisteredOfyEnvironmentProvider.class,
-		org.wahlzeit.testEnvironmentProvider.SysConfigProvider.class, org.wahlzeit.testEnvironmentProvider.UserServiceProvider.class, 
-		org.wahlzeit.testEnvironmentProvider.UserSessionProvider.class, org.wahlzeit.testEnvironmentProvider.WebFormHandlerProvider.class})
+@SuiteClasses({
+	LocalDatastoreServiceTestConfigProvider.class, 
+	RegisteredOfyEnvironmentProvider.class,
+	SysConfigProvider.class,
+	UserServiceProvider.class, 
+	UserSessionProvider.class, 
+	WebFormHandlerProvider.class
+})
+
 public class TestEnvironmentProviderTestSuite {
 
 }

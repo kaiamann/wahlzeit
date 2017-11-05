@@ -5,7 +5,7 @@
  *
  * 04.11.2017
  *
- * Copyright (c) by Kai Amann
+ * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
  *
  * This file is part of the Wahlzeit photo rating application.
  *
@@ -32,7 +32,7 @@ public class Coordinate {
 	/**
 	 * EPSILON for compensating floating point errors
 	 */
-	private static final double EPSILON = 1E-6;
+	private static final double EPSILON = 1e-6;
 
 	/**
 	 * Values for the Cartesian Coordinate System
