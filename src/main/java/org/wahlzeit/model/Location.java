@@ -58,22 +58,37 @@ public class Location {
 		return coordinate;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((coordinate == null) ? 0 : coordinate.hashCode());
+		return result;
+	}
 
-	@Override 
-	public boolean equals(Object obj){
-		if(obj == null) {
-			return false;
-		}
-
-		if(obj == this) {
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
 		}
-
-		if(obj instanceof Location) {
-			return coordinate.isEqual(((Location) obj).getCoordinate());
+		if (obj == null) {
+			return false;
 		}
-
-		return false;
+		if (!(obj instanceof Location)) {
+			return false;
+		}
+		Location other = (Location) obj;
+		if (coordinate == null) {
+			if (other.coordinate != null) {
+				return false;
+			}
+		} else if (!coordinate.equals(other.coordinate)) {
+			return false;
+		}
+		return true;
 	}
+
+	
+
 
 }

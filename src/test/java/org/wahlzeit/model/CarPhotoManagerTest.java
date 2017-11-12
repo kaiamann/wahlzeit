@@ -1,5 +1,5 @@
 /*
- * ModelTestSuite
+ * CarPhotoManagerTest
  *
  * Version 1.0
  *
@@ -26,28 +26,16 @@
 
 package org.wahlzeit.model;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import static org.junit.Assert.*;
 
-@RunWith(Suite.class)
-@SuiteClasses({ 
-	AccessRightsTest.class, 
-	CoordinateTest.class, 
-	FlagReasonTest.class, 
-	GenderTest.class, 
-	GuestTest.class,
-	LocationTest.class, 
-	PhotoFilterTest.class, 
-	TagsTest.class, 
-	UserStatusTest.class, 
-	ValueTest.class, 
-	CarPhotoFactoryTest.class,
-	CarPhotoManagerTest.class,
-	CarPhotoTest.class,
-	CarTest.class
-})
+import org.junit.Test;
 
-public class ModelTestSuite {
+public class CarPhotoManagerTest {
+	
+	 @Test
+	 public void testGetInstance() {
+		 CarPhotoManager res = CarPhotoManager.getInstance();
+		 assertNotEquals(res,null);
+	 }
 
 }

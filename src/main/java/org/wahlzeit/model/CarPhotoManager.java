@@ -1,9 +1,9 @@
 /*
- * TestEnvironmentProviderTestSuite
+ * CarPhotoManager
  *
  * Version 1.0
  *
- * 04.11.2017
+ * 12.11.2017
  *
  * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
  *
@@ -23,22 +23,25 @@
  * License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package org.wahlzeit.testEnvironmentProvider;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+package org.wahlzeit.model;
 
-@RunWith(Suite.class)
-@SuiteClasses({
-	LocalDatastoreServiceTestConfigProvider.class, 
-	RegisteredOfyEnvironmentProvider.class,
-	SysConfigProvider.class,
-	UserServiceProvider.class, 
-	UserSessionProvider.class, 
-	WebFormHandlerProvider.class
-})
+import java.util.logging.Logger;
 
-public class TestEnvironmentProviderTestSuite {
+public class CarPhotoManager extends PhotoManager {
+	
+	protected static CarPhotoManager instance = new CarPhotoManager();
+	
+	private static final Logger log = Logger.getLogger(CarPhotoManager.class.getName());
+
+	public CarPhotoManager() {
+		photoTagCollector = CarPhotoFactory.getInstance().createPhotoTagCollector();
+	}
+	
+	public static CarPhotoManager getInstance() {
+		return instance;
+	}
+	
+	
 
 }

@@ -1,9 +1,9 @@
 /*
- * ModelTestSuite
+ * CarPhoto
  *
  * Version 1.0
  *
- * 04.11.2017
+ * 12.11.2017
  *
  * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
  *
@@ -26,28 +26,33 @@
 
 package org.wahlzeit.model;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+public class CarPhoto extends Photo {
 
-@RunWith(Suite.class)
-@SuiteClasses({ 
-	AccessRightsTest.class, 
-	CoordinateTest.class, 
-	FlagReasonTest.class, 
-	GenderTest.class, 
-	GuestTest.class,
-	LocationTest.class, 
-	PhotoFilterTest.class, 
-	TagsTest.class, 
-	UserStatusTest.class, 
-	ValueTest.class, 
-	CarPhotoFactoryTest.class,
-	CarPhotoManagerTest.class,
-	CarPhotoTest.class,
-	CarTest.class
-})
+	public Car car;
+	
+	public CarPhoto() {
+		super();
+	}
 
-public class ModelTestSuite {
+	public CarPhoto(PhotoId myId) {
+		super(myId);
+	}
+
+	/**
+	 * @return the car
+	 */
+	public Car getCar() {
+		return car;
+	}
+
+	/**
+	 * @param car the car to set
+	 */
+	public void setCar(Car car) {
+		this.car = car;
+	}
+	
+	
+		
 
 }

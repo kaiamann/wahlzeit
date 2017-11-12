@@ -20,6 +20,8 @@
 
 package org.wahlzeit.main;
 
+import org.wahlzeit.model.CarPhotoFactory;
+import org.wahlzeit.model.CarPhotoManager;
 import org.wahlzeit.model.GlobalsManager;
 import org.wahlzeit.model.PhotoCaseManager;
 import org.wahlzeit.model.PhotoFactory;
@@ -59,11 +61,11 @@ public abstract class ModelMain extends AbstractMain {
 		log.config(LogBuilder.createSystemMessage().addAction("load user").toString());
 		UserManager.getInstance().init();
 
-		log.config(LogBuilder.createSystemMessage().addAction("init PhotoFactory").toString());
-		PhotoFactory.initialize();
+		log.config(LogBuilder.createSystemMessage().addAction("init CarPhotoFactory").toString());
+		CarPhotoFactory.initialize();
 
-		log.config(LogBuilder.createSystemMessage().addAction("load Photos").toString());
-		PhotoManager.getInstance().init();
+		log.config(LogBuilder.createSystemMessage().addAction("load CarPhotos").toString());
+		CarPhotoManager.getInstance().init();
 	}
 
 

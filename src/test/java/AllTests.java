@@ -42,7 +42,6 @@ import org.wahlzeit.utils.UtilsTestSuite;
 	ModelPersistenceTestSuite.class, 
 	ServicesTestSuite.class,
 	ServicesMailingTestSuite.class,
-	TestEnvironmentProviderTestSuite.class, 
 	UtilsTestSuite.class
 })
 

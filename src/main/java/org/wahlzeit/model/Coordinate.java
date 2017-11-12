@@ -112,6 +112,20 @@ public class Coordinate {
 
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(x);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(y);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(z);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if(obj == null) {
 			return false;
@@ -127,11 +141,6 @@ public class Coordinate {
 
 		return false;
 
-	}
-
-	@Override
-	public String toString() {
-		return "x: "+x+", y: "+y+", z: "+z;
 	}
 
 }

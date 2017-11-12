@@ -1,9 +1,9 @@
 /*
- * ModelTestSuite
+ * CarPhoto
  *
  * Version 1.0
  *
- * 04.11.2017
+ * 12.11.2017
  *
  * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
  *
@@ -26,28 +26,27 @@
 
 package org.wahlzeit.model;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import static org.junit.Assert.*;
 
-@RunWith(Suite.class)
-@SuiteClasses({ 
-	AccessRightsTest.class, 
-	CoordinateTest.class, 
-	FlagReasonTest.class, 
-	GenderTest.class, 
-	GuestTest.class,
-	LocationTest.class, 
-	PhotoFilterTest.class, 
-	TagsTest.class, 
-	UserStatusTest.class, 
-	ValueTest.class, 
-	CarPhotoFactoryTest.class,
-	CarPhotoManagerTest.class,
-	CarPhotoTest.class,
-	CarTest.class
-})
 
-public class ModelTestSuite {
+import org.junit.Before;
+import org.junit.Test;
+
+public class CarPhotoTest {
+
+	CarPhoto p1;
+	@Before
+	public void setUp() throws Exception {
+		p1 = new CarPhoto();	
+	}
+
+	@Test
+	public void testGetSetDimensions() {
+		assertEquals(null,p1.getCar());
+		
+		Car expected = new Car("Porsche","Carrera GT");
+		p1.setCar(expected);
+		assertEquals(expected,p1.getCar());
+	}
 
 }
