@@ -30,6 +30,9 @@ import java.util.logging.Logger;
 
 import org.wahlzeit.services.LogBuilder;
 
+import com.googlecode.objectify.annotation.Subclass;
+
+@Subclass
 public class CarPhotoFactory extends PhotoFactory {
 
 	protected CarPhotoFactory() {
@@ -53,14 +56,32 @@ public class CarPhotoFactory extends PhotoFactory {
 		}
 		return instance;
 	}
+	
+	/**
+	 * Method to set the singleton instance of PhotoFactory.
+	 */
+	protected static synchronized void setInstance(CarPhotoFactory photoFactory) {
+		if (instance != null) {
+			throw new IllegalStateException("attempt to initalize CarPhotoFactory twice");
+		}
+		instance = photoFactory;
+	}
 
-
-	public Photo createPhoto() {
+	@Override
+	public CarPhoto createPhoto() {
 		return new CarPhoto();
 	}
 	
-
+	@Override
 	public Photo createPhoto(PhotoId id) {
+		return new CarPhoto(id);
+	}
+	
+	public CarPhoto createCarPhoto() {
+		return new CarPhoto();
+	}
+	
+	public Photo createCarPhoto(PhotoId id) {
 		return new CarPhoto(id);
 	}
 	

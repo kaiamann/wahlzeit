@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 
 public class CarPhotoManager extends PhotoManager {
 	
-	protected static CarPhotoManager instance = new CarPhotoManager();
+	protected static final CarPhotoManager instance = new CarPhotoManager();
 	
 	private static final Logger log = Logger.getLogger(CarPhotoManager.class.getName());
 
@@ -38,7 +38,7 @@ public class CarPhotoManager extends PhotoManager {
 		photoTagCollector = CarPhotoFactory.getInstance().createPhotoTagCollector();
 	}
 	
-	public static CarPhotoManager getInstance() {
+	public static synchronized CarPhotoManager getInstance() {
 		return instance;
 	}
 	

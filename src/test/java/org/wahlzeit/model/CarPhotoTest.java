@@ -34,14 +34,14 @@ import org.junit.Test;
 
 public class CarPhotoTest {
 
-	CarPhoto p1;
 	@Before
 	public void setUp() throws Exception {
-		p1 = new CarPhoto();	
+		// Do nothing
 	}
 
 	@Test
-	public void testGetSetDimensions() {
+	public void testGetSetCar() {
+		CarPhoto p1 = new CarPhoto();	
 		assertEquals(null,p1.getCar());
 		
 		Car expected = new Car("Porsche","Carrera GT");
