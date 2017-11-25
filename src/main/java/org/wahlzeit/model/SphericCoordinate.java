@@ -1,6 +1,32 @@
+/*
+ * SphericCoordinate
+ *
+ * Version 1.1
+ *
+ * 25.11.2017
+ *
+ * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
+ *
+ * This file is part of the Wahlzeit photo rating application.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this program. If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
+
 package org.wahlzeit.model;
 
-public class SphericCoordinate implements Coordinate {
+public class SphericCoordinate extends AbstractCoordinate {
 
 	/**
 	 * EPSILON for compensating floating point errors
@@ -8,10 +34,13 @@ public class SphericCoordinate implements Coordinate {
 	private static final double EPSILON = 1e-6;
 
 	/**
-	 * Values for the Cartesian Coordinate System
+	 * Values for the Spheric Coordinate System
 	 */
+	// azimuth phi
 	private double longitude;
+	// inclination omega
 	private double latitude;
+	// radius
 	private double radius;
 
 	/**
@@ -19,13 +48,13 @@ public class SphericCoordinate implements Coordinate {
 	 */
 	public SphericCoordinate(double lon,double lat, double rad) {
 		if(lon > 2*Math.PI) {
-			throw new IllegalArgumentException("Longitude cannot be over 360 Degreess!");
+			throw new IllegalArgumentException("Longitude cannot be over 360 degrees!");
 		}
 		if(lon > 2*Math.PI) {
-			throw new IllegalArgumentException("Latitude cannot be over 360 Degreess!");
+			throw new IllegalArgumentException("Latitude cannot be over 360 degrees!");
 		}
-		longitude = lon; //azimuth phi
-		latitude = lat; //inclination omega
+		longitude = lon; 
+		latitude = lat; 
 		radius = rad;
 	}
 	
@@ -43,20 +72,16 @@ public class SphericCoordinate implements Coordinate {
 	}
 
 	@Override
-	public double getDistance(Coordinate x) {
-		if(x == null) {
-			throw new IllegalArgumentException("Coordinate cannot be null!");
-		}
-		return getSphericDistance(x);
+	public double getDistance(Coordinate c) {
+		super.getDistance(c);
+		return getSphericDistance(c);
 	}
 	
 	@Override
-	public double getCartesianDistance(Coordinate x) {
-		if(x == null) {
-			throw new IllegalArgumentException("Coordinate cannot be null!");
-		}
-		CartesianCoordinate c = this.asCartesianCoordinate();
-		return c.getCartesianDistance(x);
+	public double getCartesianDistance(Coordinate c) {
+		super.getCartesianDistance(c);
+		CartesianCoordinate sc = this.asCartesianCoordinate();
+		return sc.getCartesianDistance(c);
 	}
 	
 	/**
@@ -65,25 +90,25 @@ public class SphericCoordinate implements Coordinate {
 	 * @return the spherical distance
 	 */
 	@Override
-	public double getSphericDistance(Coordinate x) {
-		if(x == null) {
-			throw new IllegalArgumentException("Coordinate cannot be null!");
-		}
-		SphericCoordinate c = x.asSphericCoordinate();
-		double angularStuff = Math.sin(latitude)*Math.sin(c.latitude)*Math.cos(longitude-c.longitude)+Math.cos(latitude)*Math.cos(c.latitude);
-		return Math.sqrt(radius*radius+c.radius*c.radius-2*radius*c.radius*angularStuff);
+	public double getSphericDistance(Coordinate c) {
+		super.getSphericDistance(c);
+		SphericCoordinate sc = c.asSphericCoordinate();
+		double angularStuff = Math.sin(latitude)*Math.sin(sc.latitude)*Math.cos(longitude-sc.longitude)+Math.cos(latitude)*Math.cos(sc.latitude);
+		return Math.sqrt(radius*radius+sc.radius*sc.radius-2*radius*sc.radius*angularStuff);
 	}
 
 	@Override
-	public boolean isEqual(Coordinate x) {
-		if(x == null) {
-			throw new IllegalArgumentException("Coordinate cannot be null!");
+	public boolean isEqual(Coordinate c) {
+		boolean res = super.isEqual(c);
+		if(res) {
+			return res;
 		}
-		SphericCoordinate c = x.asSphericCoordinate();
+		
+		SphericCoordinate sc = c.asSphericCoordinate();
 
-		double longdif = Math.abs(this.longitude - c.longitude);
-		double latdif = Math.abs(this.latitude - c.latitude);
-		double raddif = Math.abs(this.radius - c.radius);
+		double longdif = Math.abs(this.longitude - sc.longitude);
+		double latdif = Math.abs(this.latitude - sc.latitude);
+		double raddif = Math.abs(this.radius - sc.radius);
 
 		if(longdif < EPSILON && latdif < EPSILON && raddif < EPSILON) {
 			return true;
@@ -93,6 +118,7 @@ public class SphericCoordinate implements Coordinate {
 	}
 
 	/**
+	 * @methodtype get
 	 * @return the longitude
 	 */
 	public double getLongitude() {
@@ -100,6 +126,7 @@ public class SphericCoordinate implements Coordinate {
 	}
 
 	/**
+	 * @methodtype get
 	 * @return the latitude
 	 */
 	public double getLatitude() {
@@ -107,6 +134,7 @@ public class SphericCoordinate implements Coordinate {
 	}
 
 	/**
+	 * @methodtype get
 	 * @return the radius
 	 */
 	public double getRadius() {
@@ -135,12 +163,9 @@ public class SphericCoordinate implements Coordinate {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if(obj == null) {
-			return false;
-		}
-
-		if(obj == this){
-			return true;
+		boolean res = super.equals(obj);
+		if(res) {
+			return res;
 		}
 
 		if(obj instanceof Coordinate){

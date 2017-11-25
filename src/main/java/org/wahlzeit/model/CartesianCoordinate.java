@@ -1,9 +1,9 @@
 /*
- * Coordinate
+ * CartesianCoordinate
  *
  * Version 1.1
  *
- * 04.11.2017
+ * 25.11.2017
  *
  * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
  *
@@ -24,10 +24,9 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-
 package org.wahlzeit.model;
 
-public class CartesianCoordinate implements Coordinate {
+public class CartesianCoordinate extends AbstractCoordinate {
 
 	/**
 	 * EPSILON for compensating floating point errors
@@ -64,11 +63,9 @@ public class CartesianCoordinate implements Coordinate {
 	}
 
 	@Override
-	public double getDistance(Coordinate x) {
-		if(x == null) {
-			throw new IllegalArgumentException("Coordinate cannot be null!");
-		}
-		return getCartesianDistance(x);
+	public double getDistance(Coordinate c) {
+		super.getDistance(c);
+		return getCartesianDistance(c);
 	}	
 	
 	/**
@@ -77,25 +74,21 @@ public class CartesianCoordinate implements Coordinate {
 	 * @return the Euclidean distance
 	 */
 	@Override
-	public double getCartesianDistance(Coordinate x){
-		if(x == null) {
-			throw new IllegalArgumentException("Coordinate cannot be null!");
-		}
-		CartesianCoordinate c = x.asCartesianCoordinate();
+	public double getCartesianDistance(Coordinate c){
+		super.getCartesianDistance(c);
+		CartesianCoordinate cc = c.asCartesianCoordinate();
 
-		double xdif = this.x - c.x;
-		double ydif = this.y - c.y;
-		double zdif = this.z - c.z;
+		double xdif = this.x - cc.x;
+		double ydif = this.y - cc.y;
+		double zdif = this.z - cc.z;
 
 		return Math.sqrt(xdif*xdif+ydif*ydif+zdif*zdif);
 	}
 
 	@Override
-	public double getSphericDistance(Coordinate x) {
-		if(x == null) {
-			throw new IllegalArgumentException("Coordinate cannot be null!");
-		}
-		return getDistance(x);
+	public double getSphericDistance(Coordinate c) {
+		super.getSphericDistance(c);
+		return getDistance(c);
 	}
 	
 	/**
@@ -105,15 +98,17 @@ public class CartesianCoordinate implements Coordinate {
 	 * @methodtype boolean-query
 	 */
 	@Override
-	public boolean isEqual(Coordinate x) {
-		if(x == null) {
-			throw new IllegalArgumentException("Coordinate cannot be null!");
+	public boolean isEqual(Coordinate c) {
+		boolean res = super.isEqual(c);
+		if(res) {
+			return res;
 		}
-		CartesianCoordinate c = x.asCartesianCoordinate();
+		
+		CartesianCoordinate cc = c.asCartesianCoordinate();
 
-		double xdif = Math.abs(this.x - c.x);
-		double ydif = Math.abs(this.y - c.y);
-		double zdif = Math.abs(this.z - c.z);
+		double xdif = Math.abs(this.x - cc.x);
+		double ydif = Math.abs(this.y - cc.y);
+		double zdif = Math.abs(this.z - cc.z);
 
 		if(xdif < EPSILON && ydif < EPSILON && zdif < EPSILON) {
 			return true;
@@ -124,6 +119,7 @@ public class CartesianCoordinate implements Coordinate {
 	
 	/**
 	 * @methodtype get
+	 * @return the radius
 	 */
 	public double getX() {
 		return x;
@@ -131,6 +127,7 @@ public class CartesianCoordinate implements Coordinate {
 
 	/**
 	 * @methodtype get
+	 * @return the radius
 	 */
 	public double getY() {
 		return y;
@@ -138,6 +135,7 @@ public class CartesianCoordinate implements Coordinate {
 
 	/**
 	 * @methodtype get
+	 * @return the radius
 	 */
 	public double getZ() {
 		return z;
@@ -160,12 +158,9 @@ public class CartesianCoordinate implements Coordinate {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(obj == null) {
-			return false;
-		}
-
-		if(obj == this){
-			return true;
+		boolean res = super.equals(obj);
+		if(res) {
+			return res;
 		}
 
 		if(obj instanceof Coordinate){

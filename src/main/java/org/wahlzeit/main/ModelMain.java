@@ -62,16 +62,16 @@ public abstract class ModelMain extends AbstractMain {
 		UserManager.getInstance().init();
 		
 		log.config(LogBuilder.createSystemMessage().addAction("init PhotoFactory").toString());
-		PhotoFactory.initialize();
+		PhotoFactory.setInstance((PhotoFactory)CarPhotoFactory.getInstance());
 
-		log.config(LogBuilder.createSystemMessage().addAction("init CarPhotoFactory").toString());
-		CarPhotoFactory.initialize();
+//		log.config(LogBuilder.createSystemMessage().addAction("init CarPhotoFactory").toString());
+//		CarPhotoFactory.initialize();
 		
 		log.config(LogBuilder.createSystemMessage().addAction("load CarPhotos").toString());
 		PhotoManager.getInstance().init();
 
-		log.config(LogBuilder.createSystemMessage().addAction("load CarPhotos").toString());
-		CarPhotoManager.getInstance().init();
+//		log.config(LogBuilder.createSystemMessage().addAction("load CarPhotos").toString());
+//		CarPhotoManager.getInstance().init();
 	}
 
 

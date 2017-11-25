@@ -1,9 +1,9 @@
 /*
  * CoordinateTest
  *
- * Version 1.1
+ * Version 2.1
  *
- * 04.11.2017
+ * 25.11.2017
  *
  * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
  *
@@ -31,7 +31,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sun.xml.internal.ws.policy.spi.AssertionCreationException;
 
 public class CoordinateTest {
 
@@ -144,6 +143,7 @@ public class CoordinateTest {
 		assertTrue(s3.isEqual(s5));
 		assertFalse(s1.isEqual(s4));
 
+		// testing for invalid input
 		c1.isEqual(null);
 	}
 
