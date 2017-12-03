@@ -1,9 +1,9 @@
 /*
  * CartesianCoordinate
  *
- * Version 1.1
+ * Version 1.2
  *
- * 25.11.2017
+ * 03.12.2017
  *
  * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
  *
@@ -26,12 +26,9 @@
 
 package org.wahlzeit.model;
 
-public class CartesianCoordinate extends AbstractCoordinate {
+import org.wahlzeit.utils.DoubleUtil;
 
-	/**
-	 * EPSILON for compensating floating point errors
-	 */
-	private static final double EPSILON = 1e-6;
+public class CartesianCoordinate extends AbstractCoordinate {
 
 	/**
 	 * Values for the Cartesian Coordinate System
@@ -47,15 +44,16 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		assertClassInvariants();
 	}
 
 	@Override
-	public CartesianCoordinate asCartesianCoordinate() {
+	protected CartesianCoordinate doAsCartesianCoordinate() {
 		return this;
 	}
 	
 	@Override
-	public SphericCoordinate asSphericCoordinate() {
+	protected SphericCoordinate doAsSphericCoordinate() {
 		double radius = Math.sqrt(x*x+y*y+z*z);
 		double latitude = radius != 0 ? Math.acos(z/radius) : 0;
 		double longitude = Math.atan2(y, x);
@@ -63,19 +61,12 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	public double getDistance(Coordinate c) {
-		super.getDistance(c);
+	protected double doGetDistance(Coordinate c) {
 		return getCartesianDistance(c);
 	}	
 	
-	/**
-	 * Computes and returns the Euclidean distance between two points in the Cartesian Coordinate system
-	 * @param c the Coordinate to which the distance should be computed 
-	 * @return the Euclidean distance
-	 */
 	@Override
-	public double getCartesianDistance(Coordinate c){
-		super.getCartesianDistance(c);
+	protected double doGetCartesianDistance(Coordinate c){
 		CartesianCoordinate cc = c.asCartesianCoordinate();
 
 		double xdif = this.x - cc.x;
@@ -86,65 +77,75 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	public double getSphericDistance(Coordinate c) {
-		super.getSphericDistance(c);
+	protected double doGetSphericDistance(Coordinate c) {
 		return getDistance(c);
 	}
 	
-	/**
-	 * Compares this Coordinate to the given Coordinate c in terms of their x,y and z values.
-	 * @param c the Coordinate to compare to
-	 * @return true if the Coordinates are equal, false otherwise
-	 * @methodtype boolean-query
-	 */
 	@Override
-	public boolean isEqual(Coordinate c) {
-		boolean res = super.isEqual(c);
-		if(res) {
-			return res;
-		}
-		
+	protected boolean doIsEqual(Coordinate c) {
 		CartesianCoordinate cc = c.asCartesianCoordinate();
 
-		double xdif = Math.abs(this.x - cc.x);
-		double ydif = Math.abs(this.y - cc.y);
-		double zdif = Math.abs(this.z - cc.z);
-
-		if(xdif < EPSILON && ydif < EPSILON && zdif < EPSILON) {
+		if(DoubleUtil.isEqual(this.x, cc.x) && 
+				DoubleUtil.isEqual(this.y, cc.y) && 
+				DoubleUtil.isEqual(this.z, cc.z)) {
 			return true;
 		}
 
 		return false;
 	}
 	
+	
 	/**
 	 * @methodtype get
 	 * @return the radius
 	 */
 	public double getX() {
+		assertClassInvariants();
+		double result = doGetX();
+		assertClassInvariants();
+		return result;
+	}
+	protected double doGetX() {
 		return x;
 	}
 
+	
 	/**
 	 * @methodtype get
 	 * @return the radius
 	 */
 	public double getY() {
+		assertClassInvariants();
+		double result = doGetY();
+		assertClassInvariants();
+		return result;
+	}
+	protected double doGetY() {
 		return y;
 	}
 
+	
 	/**
 	 * @methodtype get
 	 * @return the radius
 	 */
 	public double getZ() {
+		assertClassInvariants();
+		double result = doGetZ();
+		assertClassInvariants();
+		return result;
+	}
+	protected double doGetZ() {
 		return z;
 	}
 
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		final int prime = 11;
 		int result = 1;
 		long temp;
 		temp = Double.doubleToLongBits(x);
@@ -157,17 +158,16 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		boolean res = super.equals(obj);
-		if(res) {
-			return res;
+	protected void assertClassInvariants() {
+		if(Double.isNaN(x)) {
+			throw new IllegalStateException("x is NaN!");
 		}
-
-		if(obj instanceof Coordinate){
-			return this.isEqual((Coordinate) obj);
+		if(Double.isNaN(y)) {
+			throw new IllegalStateException("y is NaN!");
 		}
-
-		return false;
-
+		if(Double.isNaN(z)) {
+			throw new IllegalStateException("z is NaN!");
+		}
+		
 	}
 }

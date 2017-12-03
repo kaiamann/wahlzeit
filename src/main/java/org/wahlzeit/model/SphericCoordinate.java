@@ -1,9 +1,9 @@
 /*
  * SphericCoordinate
  *
- * Version 1.1
+ * Version 1.2
  *
- * 25.11.2017
+ * 03.12.2017
  *
  * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
  *
@@ -26,12 +26,9 @@
 
 package org.wahlzeit.model;
 
-public class SphericCoordinate extends AbstractCoordinate {
+import org.wahlzeit.utils.DoubleUtil;
 
-	/**
-	 * EPSILON for compensating floating point errors
-	 */
-	private static final double EPSILON = 1e-6;
+public class SphericCoordinate extends AbstractCoordinate {
 
 	/**
 	 * Values for the Spheric Coordinate System
@@ -47,70 +44,51 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodtype constructor
 	 */
 	public SphericCoordinate(double lon,double lat, double rad) {
-		if(lon > 2*Math.PI) {
-			throw new IllegalArgumentException("Longitude cannot be over 360 degrees!");
-		}
-		if(lon > 2*Math.PI) {
-			throw new IllegalArgumentException("Latitude cannot be over 360 degrees!");
-		}
 		longitude = lon; 
 		latitude = lat; 
 		radius = rad;
+		assertClassInvariants();
 	}
-	
+
 	@Override
-	public CartesianCoordinate asCartesianCoordinate() {
+	protected CartesianCoordinate doAsCartesianCoordinate() {
 		double x = radius*Math.sin(latitude)*Math.cos(longitude);
 		double y = radius*Math.sin(latitude)*Math.sin(longitude);
 		double z = radius*Math.cos(latitude);
 		return new CartesianCoordinate(x,y,z);
 	}
-	
+
 	@Override
-	public SphericCoordinate asSphericCoordinate() {
+	protected SphericCoordinate doAsSphericCoordinate() {
 		return this;
 	}
 
 	@Override
-	public double getDistance(Coordinate c) {
-		super.getDistance(c);
+	protected double doGetDistance(Coordinate c) {
 		return getSphericDistance(c);
 	}
-	
+
 	@Override
-	public double getCartesianDistance(Coordinate c) {
-		super.getCartesianDistance(c);
+	protected double doGetCartesianDistance(Coordinate c) {
 		CartesianCoordinate sc = this.asCartesianCoordinate();
 		return sc.getCartesianDistance(c);
 	}
-	
-	/**
-	 * Computes and returns the Spherical distance between two points in the Spherical Coordinate system
-	 * @param c the Coordinate to which the distance should be computed 
-	 * @return the spherical distance
-	 */
+
+
 	@Override
-	public double getSphericDistance(Coordinate c) {
-		super.getSphericDistance(c);
+	protected double doGetSphericDistance(Coordinate c) {
 		SphericCoordinate sc = c.asSphericCoordinate();
 		double angularStuff = Math.sin(latitude)*Math.sin(sc.latitude)*Math.cos(longitude-sc.longitude)+Math.cos(latitude)*Math.cos(sc.latitude);
 		return Math.sqrt(radius*radius+sc.radius*sc.radius-2*radius*sc.radius*angularStuff);
 	}
 
 	@Override
-	public boolean isEqual(Coordinate c) {
-		boolean res = super.isEqual(c);
-		if(res) {
-			return res;
-		}
-		
+	protected boolean doIsEqual(Coordinate c) {
 		SphericCoordinate sc = c.asSphericCoordinate();
 
-		double longdif = Math.abs(this.longitude - sc.longitude);
-		double latdif = Math.abs(this.latitude - sc.latitude);
-		double raddif = Math.abs(this.radius - sc.radius);
-
-		if(longdif < EPSILON && latdif < EPSILON && raddif < EPSILON) {
+		if(DoubleUtil.isEqual(this.latitude, sc.latitude) && 
+				DoubleUtil.isEqual(this.longitude, sc.longitude) &&
+				DoubleUtil.isEqual(this.radius, sc.radius)) {
 			return true;
 		}
 
@@ -122,6 +100,12 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @return the longitude
 	 */
 	public double getLongitude() {
+		assertClassInvariants();
+		double result = doGetLongitude();
+		assertClassInvariants();
+		return result;
+	}
+	protected double doGetLongitude() {
 		return longitude;
 	}
 
@@ -130,6 +114,12 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @return the latitude
 	 */
 	public double getLatitude() {
+		assertClassInvariants();
+		double result = doGetLatitude();
+		assertClassInvariants();
+		return result;
+	}
+	protected double doGetLatitude() {
 		return latitude;
 	}
 
@@ -138,6 +128,12 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @return the radius
 	 */
 	public double getRadius() {
+		assertClassInvariants();
+		double result = doGetRadius();
+		assertClassInvariants();
+		return result;
+	}
+	protected double doGetRadius() {
 		return radius;
 	}
 
@@ -158,26 +154,31 @@ public class SphericCoordinate extends AbstractCoordinate {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
-	public boolean equals(Object obj) {
-		boolean res = super.equals(obj);
-		if(res) {
-			return res;
+	protected void assertClassInvariants() {
+		if(Double.isNaN(longitude)) {
+			throw new IllegalStateException("longitude is NaN!");
+		}
+		if(Double.isNaN(latitude)) {
+			throw new IllegalStateException("latitude is NaN!");
+		}
+		if(Double.isNaN(radius)) {
+			throw new IllegalStateException("radius is NaN!");
 		}
 
-		if(obj instanceof Coordinate){
-			return this.isEqual((Coordinate) obj);
+		if(longitude < 0|| longitude > 2*Math.PI) {
+			throw new IllegalStateException("longitude is outside of valid range! was: "+longitude+", expected: 0 to 2PI");
+		}
+		if(latitude < 0 || latitude > Math.PI) {
+			throw new IllegalStateException("latitude is outside of valid range! was: "+latitude+", expected: 0 to PI");
 		}
 
-		return false;
 
 	}
 
-	
-	
-	
+
+
+
+
 
 }

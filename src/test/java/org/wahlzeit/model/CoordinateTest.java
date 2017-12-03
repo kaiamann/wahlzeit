@@ -1,9 +1,9 @@
 /*
  * CoordinateTest
  *
- * Version 2.1
+ * Version 2.2
  *
- * 25.11.2017
+ * 03.12.2017
  *
  * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
  *
@@ -170,6 +170,16 @@ public class CoordinateTest {
 		assertFalse(s1.equals(s4));
 		
 		assertFalse(c1.equals(null));
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void testInvalidParametersCartesian() {
+		CartesianCoordinate t = new CartesianCoordinate(3*Math.PI,Double.NaN,2);
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void testInvalidParametersSpheric() {
+		SphericCoordinate t = new SphericCoordinate(3*Math.PI,0,2);
 	}
 
 

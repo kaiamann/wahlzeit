@@ -1,9 +1,9 @@
 /*
  * AbstractCoordinate
  *
- * Version 1.0
+ * Version 1.1
  *
- * 25.11.2017
+ * 03.12.2017
  *
  * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
  *
@@ -29,48 +29,84 @@ package org.wahlzeit.model;
 public abstract class AbstractCoordinate implements Coordinate {
 
 	@Override
-	public abstract CartesianCoordinate asCartesianCoordinate();
+	public CartesianCoordinate asCartesianCoordinate() {
+		assertClassInvariants();
+		CartesianCoordinate converted = this.doAsCartesianCoordinate();
+		converted.assertClassInvariants();
+		return converted;
+	}
+	protected abstract CartesianCoordinate doAsCartesianCoordinate() ;
+	
 	
 	@Override
-	public abstract SphericCoordinate asSphericCoordinate();
+	public SphericCoordinate asSphericCoordinate() {
+		assertClassInvariants();
+		SphericCoordinate converted = this.doAsSphericCoordinate();
+		converted.assertClassInvariants();
+		return converted;
+	}
+	protected abstract SphericCoordinate doAsSphericCoordinate();
 
+	
+	/**
+	 * Computes and returns the Euclidean distance between two points in the Cartesian Coordinate system
+	 * @param c the Coordinate to which the distance should be computed 
+	 * @return the Euclidean distance
+	 */
 	@Override
 	public double getCartesianDistance(Coordinate c) {
-		if(c == null) {
-			throw new IllegalArgumentException("Coordinate cannot be null!");
-		}
-		return 0;
+		assertClassInvariants();
+		assertIsNonNullArgument(c);
+		double result = this.doGetCartesianDistance(c);
+		assertClassInvariants();
+		return result;
 	}
+	protected abstract double doGetCartesianDistance(Coordinate c);
 
+	
+	/**
+	 * Computes and returns the Spherical distance between two points in the Spherical Coordinate system
+	 * @param c the Coordinate to which the distance should be computed 
+	 * @return the spherical distance
+	 */
 	@Override
 	public double getSphericDistance(Coordinate c) {
-		if(c == null) {
-			throw new IllegalArgumentException("Coordinate cannot be null!");
-		}
-		return 0;
+		assertClassInvariants();
+		assertIsNonNullArgument(c);
+		double result = this.doGetSphericDistance(c);
+		assertClassInvariants();
+		return result;
 	}
+	protected abstract double doGetSphericDistance(Coordinate c);
 
+	
 	@Override
 	public double getDistance(Coordinate c) {
-		if(c == null) {
-			throw new IllegalArgumentException("Coordinate cannot be null!");
-		}
-		return 0;
+		assertClassInvariants();
+		assertIsNonNullArgument(c);
+		double result = this.doGetDistance(c);
+		assertClassInvariants();
+		return result;
 	}
+	protected abstract double doGetDistance(Coordinate c);
 
+	/**
+	 * Compares this Coordinate to the given Coordinate c in terms of their x,y and z values.
+	 * @param c the Coordinate to compare to
+	 * @return true if the Coordinates are equal, false otherwise
+	 * @methodtype boolean-query
+	 */
 	@Override
 	public boolean isEqual(Coordinate c) {
-		if(c == null) {
-			throw new IllegalArgumentException("Coordinate cannot be null!");
-		}
-		if(c == this) {
-			return true;
-		}
-		
-		return false;
+		assertClassInvariants();
+		assertIsNonNullArgument(c);
+		boolean result = this.doIsEqual(c);
+		assertClassInvariants();
+		return result;
 	}
+	protected abstract boolean doIsEqual(Coordinate c);
 	
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj == null) {
@@ -80,8 +116,27 @@ public abstract class AbstractCoordinate implements Coordinate {
 		if(obj == this){
 			return true;
 		}
-		
+
+		if(obj instanceof Coordinate){
+			return this.isEqual((Coordinate) obj);
+		}
+
 		return false;
 	}
+	
+	
+	protected abstract void assertClassInvariants();
+	
+	
+	/**
+	 * Checks if the given object obj is null and throws an IllegalArgumentException when it is
+	 * @param obj
+	 */
+	protected void assertIsNonNullArgument(Object obj) {
+		if(obj == null) {
+			throw new IllegalArgumentException("Argument cannot be null!");
+		}
+	}
+
 
 }
