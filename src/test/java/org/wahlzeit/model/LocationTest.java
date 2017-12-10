@@ -39,8 +39,8 @@ public class LocationTest {
 
 	@Before
 	public void setUp() throws Exception {	
-		c1 = new Coordinate(1,2,3);
-		c2 = new Coordinate(1,1,1);
+		c1 = new CartesianCoordinate(1,2,3);
+		c2 = new CartesianCoordinate(1,1,1);
 		
 		x = new Location(c1);
 		y = new Location(c2);
