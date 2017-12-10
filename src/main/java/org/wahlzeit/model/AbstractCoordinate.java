@@ -26,54 +26,64 @@
 
 package org.wahlzeit.model;
 
+import org.wahlzeit.exceptions.IllegalCartesianCoordinateStateException;
+import org.wahlzeit.exceptions.IllegalCoordinateStateException;
+import org.wahlzeit.exceptions.IllegalSphericCoordinateStateException;
+
 public abstract class AbstractCoordinate implements Coordinate {
 
 	@Override
-	public CartesianCoordinate asCartesianCoordinate() {
-		assertClassInvariants();
-		CartesianCoordinate converted = this.doAsCartesianCoordinate();
-		converted.assertClassInvariants();
-		return converted;
+	public CartesianCoordinate asCartesianCoordinate() throws IllegalCoordinateStateException {
+		try {
+			assertClassInvariants();
+			CartesianCoordinate converted = this.doAsCartesianCoordinate();
+			converted.assertClassInvariants();
+			assertClassInvariants();
+			return converted;
+		} catch (IllegalCartesianCoordinateStateException e) {
+			throw new IllegalCoordinateStateException(e.getInvalidComponentValue(),e.getInvalidComponentNumber(),e.getClassOfOccurence(),e);
+		} catch (IllegalSphericCoordinateStateException e) {
+			throw new IllegalCoordinateStateException(e.getInvalidComponentValue(),e.getInvalidComponentNumber(),e.getClassOfOccurence(),e);
+		}
 	}
-	protected abstract CartesianCoordinate doAsCartesianCoordinate() ;
+	protected abstract CartesianCoordinate doAsCartesianCoordinate();
 	
 	
 	@Override
-	public SphericCoordinate asSphericCoordinate() {
-		assertClassInvariants();
-		SphericCoordinate converted = this.doAsSphericCoordinate();
-		converted.assertClassInvariants();
-		return converted;
+	public SphericCoordinate asSphericCoordinate()  throws IllegalCoordinateStateException {
+		try {
+			assertClassInvariants();
+			SphericCoordinate converted = this.doAsSphericCoordinate();
+			converted.assertClassInvariants();
+			assertClassInvariants();
+			return converted;
+		} catch (IllegalCartesianCoordinateStateException e) {
+			throw new IllegalCoordinateStateException(e.getInvalidComponentValue(),e.getInvalidComponentNumber(),e.getClassOfOccurence(),e);
+		} catch (IllegalSphericCoordinateStateException e) {
+			throw new IllegalCoordinateStateException(e.getInvalidComponentValue(),e.getInvalidComponentNumber(),e.getClassOfOccurence(),e);
+		}
 	}
 	protected abstract SphericCoordinate doAsSphericCoordinate();
 
 	
-	/**
-	 * Computes and returns the Euclidean distance between two points in the Cartesian Coordinate system
-	 * @param c the Coordinate to which the distance should be computed 
-	 * @return the Euclidean distance
-	 */
 	@Override
 	public double getCartesianDistance(Coordinate c) {
 		assertClassInvariants();
 		assertIsNonNullArgument(c);
 		double result = this.doGetCartesianDistance(c);
+		assertIsValidDistance(result);
 		assertClassInvariants();
 		return result;
 	}
 	protected abstract double doGetCartesianDistance(Coordinate c);
 
 	
-	/**
-	 * Computes and returns the Spherical distance between two points in the Spherical Coordinate system
-	 * @param c the Coordinate to which the distance should be computed 
-	 * @return the spherical distance
-	 */
 	@Override
 	public double getSphericDistance(Coordinate c) {
 		assertClassInvariants();
 		assertIsNonNullArgument(c);
 		double result = this.doGetSphericDistance(c);
+		assertIsValidDistance(result);
 		assertClassInvariants();
 		return result;
 	}
@@ -85,21 +95,19 @@ public abstract class AbstractCoordinate implements Coordinate {
 		assertClassInvariants();
 		assertIsNonNullArgument(c);
 		double result = this.doGetDistance(c);
+		assertIsValidDistance(result);
 		assertClassInvariants();
 		return result;
 	}
 	protected abstract double doGetDistance(Coordinate c);
 
-	/**
-	 * Compares this Coordinate to the given Coordinate c in terms of their x,y and z values.
-	 * @param c the Coordinate to compare to
-	 * @return true if the Coordinates are equal, false otherwise
-	 * @methodtype boolean-query
-	 */
+	
 	@Override
 	public boolean isEqual(Coordinate c) {
 		assertClassInvariants();
-		assertIsNonNullArgument(c);
+		if(c == null) {
+			return false;
+		}
 		boolean result = this.doIsEqual(c);
 		assertClassInvariants();
 		return result;
@@ -118,7 +126,12 @@ public abstract class AbstractCoordinate implements Coordinate {
 		}
 
 		if(obj instanceof Coordinate){
-			return this.isEqual((Coordinate) obj);
+			try {
+				return this.isEqual((Coordinate) obj);
+			} 
+			catch (Exception e) {
+				return false;
+			}
 		}
 
 		return false;
@@ -135,6 +148,15 @@ public abstract class AbstractCoordinate implements Coordinate {
 	protected void assertIsNonNullArgument(Object obj) {
 		if(obj == null) {
 			throw new IllegalArgumentException("Argument cannot be null!");
+		}
+	}
+	
+	protected void assertIsValidDistance(double d) {
+		if(!Double.isFinite(d)) {
+			throw new ArithmeticException("Something went wrong during computation: Distance is not finite!");
+		}
+		if(d<0) {
+			throw new ArithmeticException("Something went wrong during computation: Distance is negative!");
 		}
 	}
 

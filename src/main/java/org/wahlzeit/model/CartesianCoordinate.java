@@ -26,6 +26,7 @@
 
 package org.wahlzeit.model;
 
+import org.wahlzeit.exceptions.IllegalCartesianCoordinateStateException;
 import org.wahlzeit.utils.DoubleUtil;
 
 public class CartesianCoordinate extends AbstractCoordinate {
@@ -66,8 +67,8 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}	
 	
 	@Override
-	protected double doGetCartesianDistance(Coordinate c){
-		CartesianCoordinate cc = c.asCartesianCoordinate();
+	protected double doGetCartesianDistance(Coordinate c) {
+		CartesianCoordinate cc = ((AbstractCoordinate) c).doAsCartesianCoordinate();
 
 		double xdif = this.x - cc.x;
 		double ydif = this.y - cc.y;
@@ -78,12 +79,13 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
 	@Override
 	protected double doGetSphericDistance(Coordinate c) {
-		return getDistance(c);
+		SphericCoordinate sc = ((AbstractCoordinate) this).doAsSphericCoordinate();
+		return sc.getSphericDistance(c);
 	}
 	
 	@Override
 	protected boolean doIsEqual(Coordinate c) {
-		CartesianCoordinate cc = c.asCartesianCoordinate();
+		CartesianCoordinate cc = ((AbstractCoordinate) c).doAsCartesianCoordinate();
 
 		if(DoubleUtil.isEqual(this.x, cc.x) && 
 				DoubleUtil.isEqual(this.y, cc.y) && 
@@ -159,14 +161,16 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
 	@Override
 	protected void assertClassInvariants() {
-		if(Double.isNaN(x)) {
-			throw new IllegalStateException("x is NaN!");
+		if(!Double.isFinite(x)) {
+			throw new IllegalCartesianCoordinateStateException(x,1);
 		}
-		if(Double.isNaN(y)) {
-			throw new IllegalStateException("y is NaN!");
+		
+		if(!Double.isFinite(y)) {
+			throw new IllegalCartesianCoordinateStateException(y,2);
 		}
-		if(Double.isNaN(z)) {
-			throw new IllegalStateException("z is NaN!");
+		
+		if(!Double.isFinite(z)) {
+			throw new IllegalCartesianCoordinateStateException(z,3);
 		}
 		
 	}

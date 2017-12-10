@@ -30,6 +30,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.wahlzeit.exceptions.IllegalCartesianCoordinateStateException;
+import org.wahlzeit.exceptions.IllegalCoordinateStateException;
+import org.wahlzeit.exceptions.IllegalSphericCoordinateStateException;
 
 
 public class CoordinateTest {
@@ -65,6 +68,7 @@ public class CoordinateTest {
 
 		// Testing for invalid input
 		c1.getDistance(null);
+
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -74,54 +78,65 @@ public class CoordinateTest {
 
 		// Testing for invalid input
 		s1.getDistance(null);
+
 	}
 
 	@Test
 	public void testGetDistanceCartesianSpherical() {
 		// Testing the distances between cartesian and cartesian coordinates
 		assertEquals(1,c1.getDistance(s2),EPSILON);
+
 	}
 
 	@Test
 	public void testGetDistanceSphericalCartesian() {
 		// Testing the distances between spherical and cartesian coordinates
 		assertEquals(2,s1.getDistance(c3),EPSILON);
+
 	}
 
 	// Testing converting into the other format and back again
 	@Test
 	public void testConversions() {
-		// converting from cartesian to spheric ad back
-		SphericCoordinate s = c1.asSphericCoordinate();
-		assertTrue(s.asCartesianCoordinate().isEqual(c1));
+		try {
+			// converting from cartesian to spheric ad back
+			SphericCoordinate s = c1.asSphericCoordinate();
+			assertTrue(s.asCartesianCoordinate().isEqual(c1));
 
-		s = c4.asSphericCoordinate();
-		assertTrue(s.asCartesianCoordinate().isEqual(c4));
+			s = c4.asSphericCoordinate();
+			assertTrue(s.asCartesianCoordinate().isEqual(c4));
 
-		
-		// converting from spheric to cartesian and back
-		CartesianCoordinate c = s3.asCartesianCoordinate();
-		assertTrue(c.asSphericCoordinate().isEqual(s3));
 
-		c = s4.asCartesianCoordinate();
-		assertTrue(c.asSphericCoordinate().isEqual(s4));
+			// converting from spheric to cartesian and back
+			CartesianCoordinate c = s3.asCartesianCoordinate();
+			assertTrue(c.asSphericCoordinate().isEqual(s3));
+
+			c = s4.asCartesianCoordinate();
+			assertTrue(c.asSphericCoordinate().isEqual(s4));
+		} catch (IllegalCoordinateStateException e) {
+			fail("unexpected IllegalCoordinateStateException thrown!");
+		}
 	}
 
 	@Test
 	public void testGetDistanceAndConversions() {
-		// testing if distances computed from both sides are the same
-		double distanceCartesianToSpherical = c4.getDistance(s4);
-		double distanceSphericalToCartesian = s4.getDistance(c4);
-		assertEquals(distanceCartesianToSpherical,distanceSphericalToCartesian,EPSILON);
+		try {
+			// testing if distances computed from both sides are the same
+			double distanceCartesianToSpherical = c4.getDistance(s4);
+			double distanceSphericalToCartesian = s4.getDistance(c4);
+			assertEquals(distanceCartesianToSpherical,distanceSphericalToCartesian,EPSILON);
 
-		// testing if they are still the same after converting to the other format
-		assertEquals(c4.asSphericCoordinate().getDistance(s4),distanceCartesianToSpherical,EPSILON);
-		assertEquals(s4.asSphericCoordinate().getDistance(c4),distanceCartesianToSpherical,EPSILON);
+			// testing if they are still the same after converting to the other format
+			assertEquals(c4.asSphericCoordinate().getDistance(s4),distanceCartesianToSpherical,EPSILON);
+			assertEquals(s4.asSphericCoordinate().getDistance(c4),distanceCartesianToSpherical,EPSILON);
+		} catch (IllegalCoordinateStateException e) {
+			fail("unexpected IllegalCoordinateStateException thrown!");
+		}
 	}
 
 
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testIsEqual() {
 		// testing if isEqual works for cartesian to cartesian 
 		assertTrue(c1.isEqual(c1));
@@ -142,9 +157,6 @@ public class CoordinateTest {
 		assertTrue(s1.isEqual(s1));
 		assertTrue(s3.isEqual(s5));
 		assertFalse(s1.isEqual(s4));
-
-		// testing for invalid input
-		c1.isEqual(null);
 	}
 
 	@Test
@@ -168,18 +180,26 @@ public class CoordinateTest {
 		assertTrue(s1.equals(s1));
 		assertTrue(s3.equals(s5));
 		assertFalse(s1.equals(s4));
-		
+
 		assertFalse(c1.equals(null));
 	}
-	
-	@Test(expected = IllegalStateException.class)
+
+	@Test
 	public void testInvalidParametersCartesian() {
-		CartesianCoordinate t = new CartesianCoordinate(3*Math.PI,Double.NaN,2);
+		try {
+			CartesianCoordinate t = new CartesianCoordinate(3*Math.PI,Double.NaN,2);
+		} catch (IllegalCartesianCoordinateStateException e) {
+			System.out.println(e.getLocalizedMessage());
+		}
 	}
-	
-	@Test(expected = IllegalStateException.class)
+
+	@Test
 	public void testInvalidParametersSpheric() {
-		SphericCoordinate t = new SphericCoordinate(3*Math.PI,0,2);
+		try {
+			SphericCoordinate t = new SphericCoordinate(3*Math.PI,0,2);
+		} catch (IllegalSphericCoordinateStateException e) {
+			System.out.println(e.getLocalizedMessage());
+		}
 	}
 
 

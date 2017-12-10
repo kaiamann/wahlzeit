@@ -30,7 +30,7 @@ import com.googlecode.objectify.annotation.Subclass;
 
 @Subclass
 public class CarPhoto extends Photo {
-
+	
 	public Car car;
 	
 	public CarPhoto() {
@@ -38,7 +38,11 @@ public class CarPhoto extends Photo {
 	}
 
 	public CarPhoto(PhotoId myId) {
-		super(myId);
+		if(myId == null) {
+			throw new NullPointerException("PhotoId cannot be null!");
+		}
+		id = myId;
+		incWriteCount();
 	}
 
 	/**
@@ -49,7 +53,8 @@ public class CarPhoto extends Photo {
 	}
 
 	/**
-	 * @param car the car to set
+	 * @param car the car to set 
+	 * car can be null
 	 */
 	public void setCar(Car car) {
 		this.car = car;

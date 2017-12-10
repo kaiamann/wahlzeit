@@ -26,12 +26,56 @@
 
 package org.wahlzeit.model;
 
+import org.wahlzeit.exceptions.IllegalCoordinateStateException;
+
 public interface Coordinate {
 
-	public CartesianCoordinate asCartesianCoordinate();
+	/**
+	 * @return the equivalent of this Coordinate in Cartesian representation
+	 * @throws IllegalCoordinateStateException
+	 */
+	public CartesianCoordinate asCartesianCoordinate() throws IllegalCoordinateStateException;
+	
+	
+	/**
+	 * @return the equivalent of this Coordinate in Spheric representation
+	 * @throws IllegalCoordinateStateException
+	 */
+	public SphericCoordinate asSphericCoordinate() throws IllegalCoordinateStateException;
+	
+	
+	/**
+	 * Computes and returns the Euclidean distance between two points in the Cartesian Coordinate system
+	 * @param c the Coordinate to which the distance should be computed 
+	 * @return the Euclidean distance
+	 * @throws IllegalCoordinateStateException 
+	 */
 	public double getCartesianDistance(Coordinate c);
-	public SphericCoordinate asSphericCoordinate();
+	
+	/**
+	 * Computes and returns the Spherical distance between two points in the Spherical Coordinate system
+	 * @param c the Coordinate to which the distance should be computed 
+	 * @return the spherical distance
+	 * @throws IllegalCoordinateStateException 
+	 */
 	public double getSphericDistance(Coordinate c);
+	
+	/**
+	 * Computes and returns the distance between two Coordinates
+	 * @param c the Coordinate to which the distance should be computed 
+	 * @return The spherical distance if this Coordinate is a SphericCoordinate,
+	 * the Cartesian distance if this Coordinate is a CartesianCoordinate
+	 * @throws IllegalCoordinateStateException 
+	 */
 	public double getDistance(Coordinate c);
+	
+	/**
+	 * Compares this Coordinate to the given Coordinate c in terms of their x,y and z values.
+	 * @param c the Coordinate to compare to
+	 * @return true if the Coordinates are equal, false otherwise
+	 * @throws IllegalCoordinateStateException 
+	 * @methodtype boolean-query
+	 */
 	public boolean isEqual(Coordinate c);
+
 }
