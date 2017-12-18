@@ -1,9 +1,9 @@
 /*
  * SphericCoordinate
  *
- * Version 1.2
+ * Version 1.3
  *
- * 03.12.2017
+ * 18.12.2017
  *
  * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
  *
@@ -26,7 +26,7 @@
 
 package org.wahlzeit.model;
 
-import org.wahlzeit.exceptions.IllegalSphericCoordinateStateException;
+import org.wahlzeit.exceptions.IllegalCoordinateStateException;
 import org.wahlzeit.utils.DoubleUtil;
 
 public class SphericCoordinate extends AbstractCoordinate {
@@ -35,11 +35,11 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * Values for the Spheric Coordinate System
 	 */
 	// azimuth phi
-	private double longitude;
+	private final double longitude;
 	// inclination omega
-	private double latitude;
+	private final double latitude;
 	// radius
-	private double radius;
+	private final double radius;
 
 	/**
 	 * @methodtype constructor
@@ -71,21 +71,21 @@ public class SphericCoordinate extends AbstractCoordinate {
 
 	@Override
 	protected double doGetCartesianDistance(Coordinate c) {
-		CartesianCoordinate sc = ((AbstractCoordinate) this).doAsCartesianCoordinate();
+		CartesianCoordinate sc = c.asCartesianCoordinate();
 		return sc.getCartesianDistance(c);
 	}
 
 
 	@Override
 	protected double doGetSphericDistance(Coordinate c) {
-		SphericCoordinate sc = ((AbstractCoordinate) c).doAsSphericCoordinate();
+		SphericCoordinate sc =  c.asSphericCoordinate();
 		double angularStuff = Math.sin(latitude)*Math.sin(sc.latitude)*Math.cos(longitude-sc.longitude)+Math.cos(latitude)*Math.cos(sc.latitude);
 		return Math.sqrt(radius*radius+sc.radius*sc.radius-2*radius*sc.radius*angularStuff);
 	}
 
 	@Override
 	protected boolean doIsEqual(Coordinate c) {
-		SphericCoordinate sc = ((AbstractCoordinate) c).doAsSphericCoordinate();
+		SphericCoordinate sc =  c.asSphericCoordinate();
 
 		if(DoubleUtil.isEqual(this.latitude, sc.latitude) && 
 				DoubleUtil.isEqual(this.longitude, sc.longitude) &&
@@ -159,15 +159,15 @@ public class SphericCoordinate extends AbstractCoordinate {
 	protected void assertClassInvariants() {
 		
 		if(!Double.isFinite(longitude) || longitude < 0 || longitude > 2*Math.PI) {
-			throw new IllegalSphericCoordinateStateException(longitude,1);
+			throw new IllegalCoordinateStateException(longitude,1,this.getClass());
 		}
 		
 		if(!Double.isFinite(latitude) || latitude < 0 || latitude > Math.PI) {
-			throw new IllegalSphericCoordinateStateException(latitude,2);
+			throw new IllegalCoordinateStateException(latitude,2,this.getClass());
 		}
 		
 		if(!Double.isFinite(radius) || radius < 0) {
-			throw new IllegalSphericCoordinateStateException(radius,3);
+			throw new IllegalCoordinateStateException(radius,3,this.getClass());
 		}
 
 	}

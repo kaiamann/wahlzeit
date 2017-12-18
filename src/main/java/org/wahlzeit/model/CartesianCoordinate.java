@@ -26,7 +26,7 @@
 
 package org.wahlzeit.model;
 
-import org.wahlzeit.exceptions.IllegalCartesianCoordinateStateException;
+import org.wahlzeit.exceptions.IllegalCoordinateStateException;
 import org.wahlzeit.utils.DoubleUtil;
 
 public class CartesianCoordinate extends AbstractCoordinate {
@@ -34,9 +34,9 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	/**
 	 * Values for the Cartesian Coordinate System
 	 */
-	private double x;
-	private double y;
-	private double z;
+	private final double x;
+	private final double y;
+	private final double z;
 
 	/**
 	 * @methodtype constructor
@@ -68,7 +68,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	
 	@Override
 	protected double doGetCartesianDistance(Coordinate c) {
-		CartesianCoordinate cc = ((AbstractCoordinate) c).doAsCartesianCoordinate();
+		CartesianCoordinate cc = c.asCartesianCoordinate();
 
 		double xdif = this.x - cc.x;
 		double ydif = this.y - cc.y;
@@ -79,13 +79,13 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
 	@Override
 	protected double doGetSphericDistance(Coordinate c) {
-		SphericCoordinate sc = ((AbstractCoordinate) this).doAsSphericCoordinate();
+		SphericCoordinate sc = c.asSphericCoordinate();
 		return sc.getSphericDistance(c);
 	}
 	
 	@Override
 	protected boolean doIsEqual(Coordinate c) {
-		CartesianCoordinate cc = ((AbstractCoordinate) c).doAsCartesianCoordinate();
+		CartesianCoordinate cc = c.asCartesianCoordinate();
 
 		if(DoubleUtil.isEqual(this.x, cc.x) && 
 				DoubleUtil.isEqual(this.y, cc.y) && 
@@ -162,15 +162,15 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	@Override
 	protected void assertClassInvariants() {
 		if(!Double.isFinite(x)) {
-			throw new IllegalCartesianCoordinateStateException(x,1);
+			throw new IllegalCoordinateStateException(x,1,this.getClass());
 		}
 		
 		if(!Double.isFinite(y)) {
-			throw new IllegalCartesianCoordinateStateException(y,2);
+			throw new IllegalCoordinateStateException(y,2,this.getClass());
 		}
 		
 		if(!Double.isFinite(z)) {
-			throw new IllegalCartesianCoordinateStateException(z,3);
+			throw new IllegalCoordinateStateException(z,3,this.getClass());
 		}
 		
 	}

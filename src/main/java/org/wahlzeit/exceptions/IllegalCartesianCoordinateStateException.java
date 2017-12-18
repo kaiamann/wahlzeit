@@ -5,7 +5,7 @@
  *
  * 11.12.2017
  *
- * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
+ * Copyright (c) 2017 by Kai Amann, https://github.com/kaiamann
  *
  * This file is part of the Wahlzeit photo rating application.
  *

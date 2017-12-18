@@ -1,11 +1,11 @@
 /*
  * IllegalCoordinateStateException
  *
- * Version 1.0
+ * Version 1.1
  *
- * 11.12.2017
+ * 18.12.2017
  *
- * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
+ * Copyright (c) 2017 by Kai Amann, https://github.com/kaiamann
  *
  * This file is part of the Wahlzeit photo rating application.
  *
@@ -32,7 +32,7 @@ import org.wahlzeit.model.CartesianCoordinate;
 import org.wahlzeit.model.SphericCoordinate;
 
 
-public class IllegalCoordinateStateException extends Exception {
+public class IllegalCoordinateStateException extends RuntimeException {
 
 	/**
 	 * dunno what this is for but apparently it's important

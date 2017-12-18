@@ -1,9 +1,9 @@
 /*
  * AbstractCoordinate
  *
- * Version 1.1
+ * Version 1.2
  *
- * 03.12.2017
+ * 17.12.2017
  *
  * Copyright (c) 2107 by Kai Amann, https://github.com/kaiamann
  *
@@ -26,46 +26,32 @@
 
 package org.wahlzeit.model;
 
-import org.wahlzeit.exceptions.IllegalCartesianCoordinateStateException;
-import org.wahlzeit.exceptions.IllegalCoordinateStateException;
-import org.wahlzeit.exceptions.IllegalSphericCoordinateStateException;
-
 public abstract class AbstractCoordinate implements Coordinate {
 
 	@Override
-	public CartesianCoordinate asCartesianCoordinate() throws IllegalCoordinateStateException {
-		try {
-			assertClassInvariants();
-			CartesianCoordinate converted = this.doAsCartesianCoordinate();
-			converted.assertClassInvariants();
-			assertClassInvariants();
-			return converted;
-		} catch (IllegalCartesianCoordinateStateException e) {
-			throw new IllegalCoordinateStateException(e.getInvalidComponentValue(),e.getInvalidComponentNumber(),e.getClassOfOccurence(),e);
-		} catch (IllegalSphericCoordinateStateException e) {
-			throw new IllegalCoordinateStateException(e.getInvalidComponentValue(),e.getInvalidComponentNumber(),e.getClassOfOccurence(),e);
-		}
+	public CartesianCoordinate asCartesianCoordinate() {
+
+		assertClassInvariants();
+		CartesianCoordinate converted = this.doAsCartesianCoordinate();
+		converted.assertClassInvariants();
+		assertClassInvariants();
+		return converted;
 	}
 	protected abstract CartesianCoordinate doAsCartesianCoordinate();
-	
-	
+
+
 	@Override
-	public SphericCoordinate asSphericCoordinate()  throws IllegalCoordinateStateException {
-		try {
-			assertClassInvariants();
-			SphericCoordinate converted = this.doAsSphericCoordinate();
-			converted.assertClassInvariants();
-			assertClassInvariants();
-			return converted;
-		} catch (IllegalCartesianCoordinateStateException e) {
-			throw new IllegalCoordinateStateException(e.getInvalidComponentValue(),e.getInvalidComponentNumber(),e.getClassOfOccurence(),e);
-		} catch (IllegalSphericCoordinateStateException e) {
-			throw new IllegalCoordinateStateException(e.getInvalidComponentValue(),e.getInvalidComponentNumber(),e.getClassOfOccurence(),e);
-		}
+	public SphericCoordinate asSphericCoordinate() {
+
+		assertClassInvariants();
+		SphericCoordinate converted = this.doAsSphericCoordinate();
+		converted.assertClassInvariants();
+		assertClassInvariants();
+		return converted;
 	}
 	protected abstract SphericCoordinate doAsSphericCoordinate();
 
-	
+
 	@Override
 	public double getCartesianDistance(Coordinate c) {
 		assertClassInvariants();
@@ -77,7 +63,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 	}
 	protected abstract double doGetCartesianDistance(Coordinate c);
 
-	
+
 	@Override
 	public double getSphericDistance(Coordinate c) {
 		assertClassInvariants();
@@ -89,7 +75,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 	}
 	protected abstract double doGetSphericDistance(Coordinate c);
 
-	
+
 	@Override
 	public double getDistance(Coordinate c) {
 		assertClassInvariants();
@@ -101,7 +87,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 	}
 	protected abstract double doGetDistance(Coordinate c);
 
-	
+
 	@Override
 	public boolean isEqual(Coordinate c) {
 		assertClassInvariants();
@@ -113,8 +99,8 @@ public abstract class AbstractCoordinate implements Coordinate {
 		return result;
 	}
 	protected abstract boolean doIsEqual(Coordinate c);
-	
-	
+
+
 	@Override
 	public boolean equals(Object obj) {
 		if(obj == null) {
@@ -136,11 +122,11 @@ public abstract class AbstractCoordinate implements Coordinate {
 
 		return false;
 	}
-	
-	
+
+
 	protected abstract void assertClassInvariants();
-	
-	
+
+
 	/**
 	 * Checks if the given object obj is null and throws an IllegalArgumentException when it is
 	 * @param obj
@@ -150,8 +136,12 @@ public abstract class AbstractCoordinate implements Coordinate {
 			throw new IllegalArgumentException("Argument cannot be null!");
 		}
 	}
-	
-	protected void assertIsValidDistance(double d) {
+
+	/**
+	 * Checks if the given distance is finite and greater than 0 and throws an ArithmeticException when it isn't
+	 * @param distance d
+	 */
+	protected void assertIsValidDistance(double d){
 		if(!Double.isFinite(d)) {
 			throw new ArithmeticException("Something went wrong during computation: Distance is not finite!");
 		}
