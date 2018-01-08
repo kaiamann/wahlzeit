@@ -28,7 +28,12 @@ package org.wahlzeit.model;
 
 import org.wahlzeit.exceptions.IllegalCoordinateStateException;
 import org.wahlzeit.utils.DoubleUtil;
+import org.wahlzeit.utils.PatternInstance;
 
+@PatternInstance(
+		patternName = "Composite",
+		participants = {"AbstractCoordinate","CartesianCoordinate","SphericCoordinate"}
+)
 public class CartesianCoordinate extends AbstractCoordinate {
 
 	/**
