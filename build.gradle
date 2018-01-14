@@ -60,7 +60,7 @@ dependencies {
 
 test {
     filter {
-        includeTestsMatching "AllTests.java"
+        includeTestsMatching "AllTests"
     }
 }
 

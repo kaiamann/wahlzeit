@@ -45,7 +45,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	CarPhotoFactoryTest.class,
 	CarPhotoManagerTest.class,
 	CarPhotoTest.class,
-	CarTest.class
+	CarManagerTest.class,
+	CarTypeTest.class
 })
 
 public class ModelTestSuite {
