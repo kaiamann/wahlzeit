@@ -57,6 +57,10 @@ public class CarManager {
 		return instance;
 	}
 	
+	/**
+	 * @param typeName of the Car to be created
+	 * @return the next free Id
+	 */
 	public Car createCar(String typeName) {
 		assertIsValidCarType(typeName);
 		CarType ct = getCarType(typeName);
@@ -66,7 +70,8 @@ public class CarManager {
 	}
 	
 	/**
-	 * @return the next free Id
+	 * Adds the given CarType to the carTypes hashMap
+	 * @param carType the CarType to be added
 	 */
 	public void addCarType(CarType carType) {
 		carTypes.put(carType.getName(), carType);
