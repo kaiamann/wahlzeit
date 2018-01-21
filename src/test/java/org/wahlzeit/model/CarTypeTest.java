@@ -64,10 +64,10 @@ public class CarTypeTest {
 
 	@Test
 	public void testGetAttribute() {
-		assertEquals("VW",golf.getArgument(0));
-		assertEquals("Golf",golf.getArgument(1));
+		assertEquals("VW",golf.getAttribute(0));
+		assertEquals("Golf",golf.getAttribute(1));
 		
-		assertEquals("VW",VW.getArgument(0));
+		assertEquals("VW",VW.getAttribute(0));
 	}
 	
 	@Test

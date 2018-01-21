@@ -26,7 +26,12 @@
 
 package org.wahlzeit.model;
 
-public class CarType {
+import org.wahlzeit.services.DataObject;
+
+import com.googlecode.objectify.annotation.Entity;
+
+@Entity
+public class CarType extends DataObject{
 
 	// the name of this CarType
 	private String name;
@@ -90,12 +95,12 @@ public class CarType {
 		for(int i=0;i<priorityList.length;i++) {
 			// if both supertype and this type have the ith attribute set, 
 			// but they have different values this type cannot be a subtype of supertype
-			if(priorityList[i] && superPlist[i] && !getArgument(i).equals(supertype.getArgument(i))) {
+			if(priorityList[i] && superPlist[i] && !getAttribute(i).equals(supertype.getAttribute(i))) {
 				return false;
 			}
 			// if both supertype and this type have the ith attribute set, 
 			// and they have the same values this type could be a subtype of supertype
-			if(priorityList[i] && superPlist[i] && getArgument(i).equals(supertype.getArgument(i))) {
+			if(priorityList[i] && superPlist[i] && getAttribute(i).equals(supertype.getAttribute(i))) {
 				continue;
 			}
 			
@@ -114,7 +119,7 @@ public class CarType {
 	 * @return the attribute at index i of the priorityList as String. If the attribute was a number and was
 	 *  not set this returns null instead
 	 */
-	public String getArgument(int i) {
+	public String getAttribute(int i) {
 		switch(i) {
 		case 0: return manufacturer;
 		case 1: return modelName; 

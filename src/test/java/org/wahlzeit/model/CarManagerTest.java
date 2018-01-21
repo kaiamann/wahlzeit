@@ -44,25 +44,27 @@ public class CarManagerTest {
 	
 	@Before
 	public void setUp() throws Exception {
+		manager = CarManager.getInstance();
+		
 		golf = new CarType("Golf");
 		golf.setManufacturer("VW");
 		golf.setModelName("Golf");
 		
-		passat = new CarType("Passat");
+		passat = manager.createCarType("Passat");
 		passat.setManufacturer("VW");
 		passat.setModelName("Passat");
 		
-		gallardo = new CarType("Gallardo");
+		gallardo = manager.createCarType("Gallardo");
 		gallardo.setManufacturer("Lamborghini");
 		gallardo.setModelName("Gallardo");
 		
 		VW = new CarType("VW");
 		VW.setManufacturer("VW");
 		
-		lamborghini = new CarType("Lamborghini");
+		lamborghini = manager.createCarType("Lamborghini");
 		lamborghini.setManufacturer("Lamborghini");
 		
-		manager = CarManager.getInstance();
+		
 		
 		manager.addCarType(VW);
 		manager.addCarType(gallardo);

@@ -26,11 +26,13 @@
 
 package org.wahlzeit.model;
 
+import com.googlecode.objectify.annotation.Serialize;
 import com.googlecode.objectify.annotation.Subclass;
 
 @Subclass
 public class CarPhoto extends Photo {
 	
+	@Serialize
 	public Car car;
 	
 	public CarPhoto() {

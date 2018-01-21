@@ -26,7 +26,9 @@
 
 package org.wahlzeit.model;
 
-public class Car {
+import org.wahlzeit.services.DataObject;
+
+public class Car extends DataObject{
 	
 	private int  id;
 	protected CarType type = null;
@@ -39,11 +41,82 @@ public class Car {
 		this.type = type;
 	}
 	
+	/**
+	 * @return the Id
+	 */
 	public int getId(){
 		return id;
 	}
 	
+	/**
+	 * @return the carType
+	 */
 	public CarType getCarType() {
 		return type;
 	}
+	
+	
+	/**
+	 * @return the horsepower
+	 */
+	public double getKilowatts() {
+		return type.getKilowatts();
+	}
+
+	/**
+	 * @return the yearOfConstruction
+	 */
+	public int getYearOfConstruction() {
+		return type.getYearOfConstruction();
+	}
+
+	/**
+	 * @return the wheelbase
+	 */
+	public int getWheelbase() {
+		return type.getWheelbase();
+	}
+
+	/**
+	 * @return the length
+	 */
+	public int getLength() {
+		return type.getLength();
+	}
+
+	/**
+	 * @return the width
+	 */
+	public int getWidth() {
+		return type.getWidth();
+	}
+
+	/**
+	 * @return the height
+	 */
+	public int getHeight() {
+		return type.getHeight();
+	}
+
+	/**
+	 * @return the manufacturer
+	 */
+	public String getManufacturer() {
+		return type.getManufacturer();
+	}
+
+	/**
+	 * @return the modelName
+	 */
+	public String getModelName() {
+		return type.getModelName();
+	}
+
+	/**
+	 * @return the curbWeight
+	 */
+	public double getCurbWeight() {
+		return type.getCurbWeight();
+	}
+
 }

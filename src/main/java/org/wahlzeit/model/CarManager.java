@@ -28,13 +28,18 @@ package org.wahlzeit.model;
 
 import java.util.HashMap;
 
-public class CarManager {
+import org.wahlzeit.services.ObjectManager;
+
+import com.googlecode.objectify.annotation.Entity;
+
+@Entity
+public class CarManager extends ObjectManager{
 
 	// running variable that gives us the next free identifier for the Car instances
 	private int nextFreeId = 0;
 	
-	// static CarManager instance (should probably be final, but since it's private and I don't have any methods that change this field)
-	private static CarManager instance = null;
+	
+	private final static CarManager instance = new CarManager();
 	
 	// hashMaps to store the Cars and CarTypes
 	private HashMap<Integer,Car> cars;
@@ -47,13 +52,9 @@ public class CarManager {
 	}
 	
 	/**
-	 * @return the CarManager instance. If none exists when this method is called a new CarManager is 
-	 * instantiated and returned.
+	 * @return the CarManager instance
 	 */
 	public synchronized static CarManager getInstance() {
-		if(instance == null) {
-			instance = new CarManager();
-		}
 		return instance;
 	}
 	
@@ -70,12 +71,21 @@ public class CarManager {
 	}
 	
 	/**
+	 * Creates a new CarType
+	 * @param name the name of the carType
+	 */
+	public CarType createCarType(String name){
+		return new CarType(name);
+	}
+	
+	/**
 	 * Adds the given CarType to the carTypes hashMap
 	 * @param carType the CarType to be added
 	 */
 	public void addCarType(CarType carType) {
 		carTypes.put(carType.getName(), carType);
 	}
+	
 	
 	/**
 	 * @return the next free Id
